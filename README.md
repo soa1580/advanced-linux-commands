@@ -164,17 +164,160 @@ If you want to fully switch to the root user, simply run: **'sudo -i'**
 
 ![root](./img/10.root_user.png)
 
-## Superuser Privileges
+## User Management on Linux
 
-In Linux, some important tasks need special permission called superuser or root access. However, it’s not safe to stay logged in as the root user all the time.
-
-To perform such tasks safely, Linux provides a tool called sudo (which means “super user do”). It lets you run specific commands with temporary root permission.
-
-You just need to type sudo before the command you want to run with admin rights.
-
-If you want to fully switch to the root user, simply run 
+As a DevOps engineer, you'll often handle systems administration tasks, such as managing various users on servers. It's essential to understand how to add new users or groups, adjust their permissions, change passwords, and perform related activities.
 
 
+## Creating a New User
+To add a new user on an Ubuntu server, use the adduser command. For example, if the username is "john," open your terminal and execute the command below; '**sudo adduser john'**
+
+so when you run the adduser john command in the terminal, it won't just create the user right away—it'll guide you through a simple setup process with a few questions. Think of it like filling out a quick form.
+Set a Password: First, it'll ask you to type a secure password for the new user (like "john"). You'll enter it twice to make sure you typed it correctly. Remember, passwords keep things safe, so pick something strong!
+Add Extra Details: Next, it might ask for optional info, such as the user's full name (e.g., "John Smith") or contact details like an email or phone number. These help identify the user but aren't always required—you can just hit Enter to skip them if you're in a hurry.
+Once you've answered everything, the system will finish up by creating the user account and automatically making a personal folder (called the home directory) for John. 
+
+The home directories
+A home directory is basically a private space on the server where the user can store their files, settings, and personal data—like a "My Documents" folder on your computer. For our example user "john," it would be created at **/home/john**.
+
+![adduser](./img/11a.adduser.png)
+
+Granting Administrative Privileges
+
+Initially, the newly created user accounts do not have administrative privileges. To grants administrative access to a user, you can add the user to the sudo. Users in the sudo group can run commands with administrative privileges. To the **john** user to the sudo group, run
+
+![usermod](./img/11b.usermod.png)
+
+- **usermod**: This is a command that modifies user account properties.
+
+- -aG: These are flags used with the usermod command.
+
+    - • -a stands for "append" and is used to add the user to the specified group(s) without removing them from other groups they may already belong to.
+
+    - • -G stands for "supplementary groups" and is followed by a comma-separated list of groups. It specifies the groups to which the user should be added or modified.
+
+- In the given command, '**-aG sudo**' is used to add the user '**john**' to the **sudo** group.
+
+- The sudo group is typically associated with administrative or superuser privileges. By adding '**john**' to the '**sudo**' group, the user gains the ability to execute commands with elevated privileges. 
 
 
+**Tasks for you:**
 
+- Log out and log back in as the newly created user
+- Navigate to the /home/john directory to explore what has been created.
+    Tip: Use the cd command.
+
+    **Solution**
+
+![task-cd](./img/12.john.home.png)
+
+
+## Switching User Accounts
+
+To start using the system as another user, you will need to use the '**su**' command to switch.
+
+To switch to another user account, use the '**su**' command followed by the username. For example, to switch to the john account, run **su john**;
+then type the user password and click enter key to switch to the user's environment.
+
+## Modifying User Accounts
+
+**Changing User Password**
+
+To change the password for a user, use the '**passwd**' followed by the username. For instance, to change the password for **john**, run: **sudo passwd john**
+
+You will be prompted to enter and confirm the new password for the user.
+
+**Tasks for you:**
+
+- Test the updated password by logging on to the server, using the newly updated password.
+
+**Solution to password modification task 2:**
+
+![passwd-mod](./img/13.passwd_modify.png)
+
+## Creating a Group
+
+To create a  new group, use the '**groupadd**' command. For example, to create a group name "developers," use:
+
+![groupadd](./img/14a.groupadd.png)
+
+
+## Adding Users to the Group
+
+Use the '**usermod**' command to add users to the group. For example, to add users "john" and "jane" to the "developers" group, run **sudo usermod -aG developers john**:
+
+The '**-aG**' append the "developers" to the users' existing group memberships.
+
+**Verifying Group Membership**
+
+To confirm the group memnerships for a specific user, use '**id**' command. For example, to check the group memberships for the user "john", run **id** john:
+
+![usermod](./img/14b.usermod_group.png)
+
+
+## Deleting a User
+
+To delete a user, run the following command: "**sudo userdel username**"
+
+## Ensuring Proper Group Permissions
+
+Groups in Linux are often used to manage permissions for files and directories. Ensure that the relevant files or directories have the appropriate group ownership and permissions. For instance, to grant the 'developers' group ownership of a directory, run: "**sudo chown :developers /path/to/directory**"
+
+And to grant read and write permissions to the group, run: "**sudo chmod g+rw /path/to/directory**"
+
+![path-to-dir](./img/14c.chown-chmod_directory.png)
+
+
+## 🏃‍♀️ **Side Hustle Task 3**
+
+- Create a group on the server and name it **'devops'**
+
+- Create 5 users [**'Mary'**, **'Mohammed'**, **'Ravi'**, **'Tunji'**, **'Sofia'**], and ensure each user belongs to the devops group
+
+- Create a folder for each user in the **'/home'** directory. For example **'/home/mary'**
+
+- Ensure that the group ownership of each created folder belongs to **'devops'**
+
+## **Solutions to the Tasks 3**:
+
+A 'devops' group was created along with five new users. Each user was added to the 'devops' group and given an individual home directory, with all the directories set so that their group ownership belongs to 'devops'
+
+1. User Mary was created
+
+![Mary](./img/15a.task3_Umarycreated.png)
+
+Shown Mary home directory with group ownership permission, and how it's belong to the 'devops' group 
+
+![Mary-home](./img/15b.mary_home.png)
+
+2. User Mohammed was created
+
+![Mohammed](./img/15c.user-mohammed.png)
+
+Shown Mohammed home directory with group ownership permission, and how it's belong to the 'devops' group
+
+![Mohammed-home](./img/15d.mohammed_home.png)
+
+3. User Ravi was created
+
+![Ravi](./img/15e.ravi-created.png)
+
+Shown Ravi home directory with group ownership permission, and how it's belong to the 'devops' group
+
+![Ravi-home](./img/15f.ravi_home.png)
+
+4. User Tunji created
+
+![Tunji](./img/15g.user-tunjicreated.png)
+
+Shown Tunji home directory with group ownership permission, and how it's belong to the 'devops' group
+
+![Tunji-home](./img/15h.tunji_home.png)
+
+5. User Sofia was created
+
+![Sofia](./img/15i.Usofia-created.png)
+
+Shown Sofia home directory with group ownership permission, and how it's belong to the 'devops' group
+
+![Sofia-home](./img/15j.sofia-home.png)
