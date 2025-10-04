@@ -169,6 +169,8 @@ You just need to type **'sudo'** before the command you want to run with admin r
 
 If you want to fully switch to the root user, simply run: **'sudo -i'**
 
+Type **'exit'** to the leave the shell
+
 ![root](./img/10.root_user.png)
 
 ## User Management on Linux
