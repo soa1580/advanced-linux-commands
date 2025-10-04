@@ -97,6 +97,13 @@ Check the permission of the file
 
 **What do you think the permission of the above output represent?**
 
+ - (4 + 2) = 6 for the user (read and write)
+
+- (4 + 2) = 6 for the group (read and write)
+
+- (4) = 4 for others (read only)
+
+
 Now lets update the permission so that all the user classes will have execute permission
 
 ![chmod-+x](./img/4.chmod-+X.png)
